@@ -268,9 +268,12 @@ func (e *ESJsonEncoder) Init(config interface{}) (err error) {
 }
 
 func (e *ESJsonEncoder) Encode(pack *PipelinePack) (output []byte, err error) {
-	m := pack.Message
+	return e.EncodeMessage(pack.Message)
+}
+
+func (e *ESJsonEncoder) EncodeMessage(m *message.Message) (output []byte, err error) {
 	buf := bytes.Buffer{}
-	e.coord.PopulateBuffer(pack.Message, &buf)
+	e.coord.PopulateBuffer(m, &buf)
 	buf.WriteByte(NEWLINE)
 	buf.WriteString(`{`)
 	first := true
@@ -364,9 +367,12 @@ func (e *ESLogstashV0Encoder) Init(config interface{}) (err error) {
 }
 
 func (e *ESLogstashV0Encoder) Encode(pack *PipelinePack) (output []byte, err error) {
-	m := pack.Message
+	return e.EncodeMessage(pack.Message)
+}
+
+func (e *ESLogstashV0Encoder) EncodeMessage(m *message.Message) (output []byte, err error) {
 	buf := bytes.Buffer{}
-	e.coord.PopulateBuffer(pack.Message, &buf)
+	e.coord.PopulateBuffer(m, &buf)
 	buf.WriteByte(NEWLINE)
 	buf.WriteString(`{`)
 
